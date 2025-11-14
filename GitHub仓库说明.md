@@ -3,10 +3,10 @@
 ## 仓库信息
 - **仓库地址**: https://github.com/634093948/genesis_hand
 - **分支**: main
-- **提交ID**: 61cb02e7
+- **最新提交ID**: 9384c8b0
 
 ## 已上传内容
-本仓库包含 Genesis Hand - WanVideo 视频生成平台的核心代码和配置文件，共 **284 个文件**。
+本仓库包含 Genesis Hand - WanVideo 视频生成平台的核心代码、配置文件和所有自定义节点，共 **3,903 个文件**。
 
 ### 主要内容
 - **genesis/** - 核心代码目录
@@ -14,6 +14,7 @@
   - Gradio UI 应用
   - API 服务器
   - 工具和辅助脚本
+  - **custom_nodes/Comfyui/** - 53 个自定义节点（已替换符号链接为实际文件）
   
 - **配置和脚本文件**
   - 各种批处理启动脚本 (.bat)
@@ -23,6 +24,16 @@
 - **文档**
   - README.md - 项目说明
   - 各种功能说明和修复文档
+
+### 自定义节点列表
+仓库包含以下 53 个 ComfyUI 自定义节点（完整源码）：
+- ComfyUI-Manager, ComfyUI-VideoHelperSuite, ComfyUI-Impact-Pack
+- ComfyUI-KJNodes, ComfyUI-Crystools, ComfyUI-essentials
+- ComfyUI-WanVideoWrapper, ComfyUI-WanAnimatePreprocess
+- ComfyUI-MelBandRoFormer, ComfyUI-MMAudio
+- 以及其他 43 个节点...
+
+所有节点均为实际文件夹，非符号链接，可直接使用。
 
 ## 已排除内容（不在仓库中）
 
@@ -85,4 +96,6 @@ python genesis/apps/wanvideo_gradio_app.py
 - 首次运行前请确保已完成环境准备
 
 ## 更新日志
-- 2024-11-14: 初始提交，包含完整的项目代码
+- 2024-11-14 16:00: 替换符号链接为实际节点文件夹（53 个节点，3,709 个文件）
+- 2024-11-14 15:50: 添加 GitHub 仓库说明文档
+- 2024-11-14 15:30: 初始提交，包含完整的项目代码（285 个文件）
