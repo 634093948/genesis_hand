@@ -1,0 +1,17 @@
+# 排除的文件夹
+twodog/
+models/
+python313/
+outputs/
+
+# 排除的压缩包
+genesis.zip
+int及启动文件.zip
+python313.zip
+
+# Python 缓存
+__pycache__/
+*.pyc
+
+# Git
+.git/

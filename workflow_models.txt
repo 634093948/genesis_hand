@@ -1,0 +1,21 @@
+工作流使用的模型列表
+======================================================================
+
+diffusion_models:
+  - wan\infinitetalk\Wan2_IceCannon2.1_InfiniteTalk.safetensors
+
+vae:
+  - ComfyUI-wan_2.1_vae.safetensors
+
+clip_vision:
+  - clip-vision_vit-h.safetensors
+
+wav2vec2:
+  - TencentGameMate/chinese-wav2vec2-base
+  - fp16
+  - main_device
+  - para
+
+text_encoders:
+  - umt5-xxl-enc-bf16.safetensors
+

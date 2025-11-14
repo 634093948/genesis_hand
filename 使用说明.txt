@@ -1,0 +1,105 @@
+========================================
+  Genesis WanVideo - 使用说明
+========================================
+
+## 快速开始
+
+1. 创建模型链接 (首次使用)
+   右键 FIX-MODELS.bat -> 以管理员身份运行
+
+2. 启动视频生成
+   双击: VIDEO.bat
+
+3. 在浏览器中使用
+   - 选择模型 (diffusion_models)
+   - 选择 VAE
+   - 选择 T5 文本编码器
+   - 输入提示词
+   - 点击生成
+
+
+## 文件说明
+
+VIDEO.bat           - 启动视频生成 UI
+RUN.bat             - 菜单选择 (视频/图像)
+FIX-MODELS.bat      - 修复模型链接
+CHECK-MODELS.bat    - 检查模型链接状态
+TEST-NODES.bat      - 测试节点加载
+
+
+## 模型位置
+
+已链接的模型目录:
+- diffusion_models  -> FuxkComfy\models\diffusion_models
+- vae              -> FuxkComfy\models\vae
+- text_encoders    -> FuxkComfy\models\text_encoders
+- loras            -> FuxkComfy\models\loras
+
+
+## 推荐模型
+
+视频生成模型 (选择其中一个):
+- wan/maga/wan2.2-rapid-mega-aio-nsfw-v9.safetensors
+- wan/Palingenesis/WAN22.XX_Palingenesis_high_t2v.safetensors
+- wan/holocine/Wan2_2-T2V-A14B-HIGH-HoloCine-full_fp8_e4m3fn_scaled_KJ.safetensors
+
+VAE:
+- ComfyUI-wan2.2_vae.safetensors
+- Wan2_1_VAE_fp32.safetensors
+
+T5 文本编码器:
+- umt5-xxl-enc-fp8_e4m3fn.safetensors
+- models_t5_umt5-xxl-enc-fp8_fully_uncensored.safetensors
+
+
+## 参数建议
+
+基础设置:
+- 宽度: 1280
+- 高度: 720
+- 帧数: 61 (约 2 秒)
+- 步数: 30-50
+- CFG: 7.0
+- Shift: 7.0
+
+高质量设置:
+- 宽度: 1920
+- 高度: 1080
+- 帧数: 121 (约 4 秒)
+- 步数: 50
+- CFG: 7.5
+
+
+## 常见问题
+
+Q: 提示 "No models found"?
+A: 运行 FIX-MODELS.bat 创建模型链接
+
+Q: 生成失败?
+A: 检查 VRAM 是否足够 (建议 12GB+)
+
+Q: 端口被占用?
+A: VIDEO.bat 会自动清理端口
+
+Q: Triton 错误?
+A: 已修复,使用 stub 兼容 Windows
+
+
+## 输出位置
+
+生成的视频保存在:
+E:\liliyuanshangmie\genesis_hand\genesis\output\
+
+文件名格式:
+wanvideo_<seed>.mp4
+
+
+## 系统要求
+
+- NVIDIA GPU (12GB+ VRAM 推荐)
+- Windows 10/11
+- Python 3.13
+- CUDA 支持
+
+
+========================================

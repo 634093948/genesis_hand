@@ -1,0 +1,482 @@
+========================================
+  WanVideo Genesis 更新日志
+========================================
+
+## v3.0.1 (2025-11-13) 🔧 重要修复
+
+### 🐛 修复的问题
+
+1. **采样器列表不完整**
+   - I2V 标签页现在显示所有 97+ 种采样器
+   - 修复了硬编码的采样器列表问题
+   - 默认采样器改为 `dpm++_sde` (InfiniteTalk 推荐)
+
+2. **InfiniteTalk 生成逻辑错误**
+   - 使用正确的 `WanVideoImageToVideoMultiTalk` 节点
+   - 添加完整的音频处理流程:
+     - Wav2Vec 模型加载
+     - 音频文件处理
+     - 音频嵌入创建
+   - 修复参数名称:
+     - 使用 `frame_window_size` 而不是 `num_frames`
+     - 添加 `motion_frame` 参数
+     - 正确设置 `mode='infinitetalk'`
+   - 音频嵌入正确传递给采样器
+
+3. **WanAnimate 参数优化**
+   - 添加 `tiled=False` 参数
+   - 改进姿态和面部图片处理
+   - 添加详细的处理日志
+
+4. **按钮点击调试**
+   - 添加详细的调试输出
+   - 显示参数数量和类型
+   - 改进错误处理和提示
+
+### 📋 参考工作流
+
+**InfiniteTalk 实现参考:**
+- 工作流: `Infinite Talk test(1).json`
+- 关键节点: WanVideoImageToVideoMultiTalk, MultiTalkWav2VecEmbeds
+- 推荐采样器: dpm++_sde
+
+**WanAnimate 实现参考:**
+- 工作流: `Animate上好佳工作流（sec）.json`
+- 关键节点: WanVideoAnimateEmbeds
+- 推荐采样器: sa_ode_stable
+
+### 🔍 技术细节
+
+**InfiniteTalk 音频处理流程:**
+```
+1. 加载 Wav2Vec 模型
+2. 读取音频文件
+3. 创建音频嵌入 (MultiTalkWav2VecEmbeds)
+4. 传递给 WanVideoImageToVideoMultiTalk
+5. 音频嵌入作为 multitalk_embeds 传递给采样器
+```
+
+**参数映射:**
+- Frame Window Size (InfiniteTalk): 控制每个窗口的帧数
+- Motion Frame: 控制窗口之间的重叠帧数
+- Frame Window Size (WanAnimate): 控制动画窗口大小
+
+### ⚠️ 注意事项
+
+1. InfiniteTalk 需要专用模型
+2. 音频文件可选,没有音频也能生成
+3. 如果音频处理失败,会继续生成(不带音频)
+4. 所有调试信息会输出到控制台
+
+---
+
+## v3.0 (2025-11-13) 🎉 重大更新
+
+### ✨ 新功能 - 图生视频 (Image to Video)
+
+1. **全新 I2V 标签页**
+   - 独立的图生视频界面
+   - 支持上传图片生成视频
+   - 完整的参数控制
+
+2. **三种 I2V 模式**
+   - **Standard I2V** - 标准图生视频
+   - **InfiniteTalk** - 长视频生成,支持音频驱动
+   - **WanAnimate** - 高级动画生成,支持姿态和面部控制
+
+3. **InfiniteTalk 功能**
+   - 音频文件输入支持
+   - Frame Window Size 控制
+   - Motion Frame 设置
+   - 适合生成说话人物视频
+
+4. **WanAnimate 功能**
+   - 姿态图片输入
+   - 面部图片输入
+   - Pose Strength 控制
+   - Face Strength 控制
+   - Color Match 窗口颜色匹配
+   - 适合生成高质量动画
+
+5. **完整模型支持**
+   - 支持所有 Diffusion 模型
+   - 支持所有 VAE 模型
+   - 支持所有 T5 编码器
+   - 支持量化和注意力模式
+
+6. **高级设置**
+   - Base Precision 选择
+   - Quantization 选择
+   - Attention Mode 选择
+   - 所有采样器支持 (97+种)
+
+### 🎯 使用场景
+
+**Standard I2V:**
+```
+适用于: 通用图片转视频
+输入: 单张图片 + 提示词
+输出: 标准视频
+```
+
+**InfiniteTalk:**
+```
+适用于: 人物说话视频
+输入: 人物图片 + 音频文件 (可选)
+输出: 长视频,支持音频同步
+特点: 窗口化生成,支持超长视频
+```
+
+**WanAnimate:**
+```
+适用于: 高质量动画
+输入: 参考图片 + 姿态/面部图片 (可选)
+输出: 高质量动画视频
+特点: 精确控制姿态和表情
+```
+
+### 📊 推荐配置
+
+**Standard I2V 快速:**
+```
+Mode: Standard I2V
+Resolution: 832x480
+Frames: 81
+Steps: 30
+Scheduler: unipc
+CFG: 6.0
+```
+
+**InfiniteTalk 长视频:**
+```
+Mode: InfiniteTalk
+Resolution: 832x480
+Frames: 161+
+Frame Window: 77
+Motion Frame: 4
+Steps: 30
+Scheduler: res_2m
+```
+
+**WanAnimate 高质量:**
+```
+Mode: WanAnimate
+Resolution: 832x480
+Frames: 81
+Frame Window: 77
+Pose Strength: 1.0
+Face Strength: 1.0
+Steps: 30
+Scheduler: res_5s
+```
+
+### 🔧 技术特性
+
+- 自动图片预处理和缩放
+- 支持 PIL Image 和 Tensor 输入
+- 完整的错误处理和日志
+- 进度条显示
+- 帧预览功能
+- 元数据导出
+
+### 📝 注意事项
+
+1. **输入图片要求**
+   - 推荐分辨率: 832x480 或更高
+   - 格式: JPG, PNG, WebP
+   - InfiniteTalk: 建议使用人物正面照
+   - WanAnimate: 建议提供清晰的参考图
+
+2. **模型选择**
+   - InfiniteTalk 需要专用模型 (如 Wan2_1-InfiniteTalk)
+   - WanAnimate 需要专用模型 (如 wan2.2_animate)
+   - Standard I2V 可使用任何 I2V 模型
+
+3. **性能优化**
+   - 使用量化可减少显存占用
+   - Frame Window Size 影响显存和速度
+   - 长视频建议使用 InfiniteTalk 模式
+
+---
+
+## v2.3 (2025-11-13)
+
+### ✨ 新功能
+
+1. **RES4LYF 高级采样器集成**
+   - 添加 70+ 种高级 Runge-Kutta 采样器
+   - 包含 Explicit, Implicit, Diagonally Implicit 三大类
+   - 基于数值分析的高精度采样方法
+
+2. **采样器总数达到 97+**
+   - WanVideo 标准采样器: 19种
+   - IChingWuxing 易经五行: 7种
+   - RES4LYF 高级采样器: 71种
+
+### 🔬 RES4LYF 采样器分类
+
+**Explicit 显式采样器** (40+种):
+- RES 系列: res_2m, res_2s, res_3s, res_5s
+- DEIS 系列: deis_2m, deis_3m, deis_4m
+- DPM++ 系列: dpmpp_2m, dpmpp_3m, dpmpp_2s, dpmpp_3s, dpmpp_sde_2s
+- Ralston 系列: ralston_2s, ralston_3s, ralston_4s
+- 经典 RK: rk4_4s, rk38_4s, dormand-prince_6s/13s
+- 其他: midpoint, heun, kutta, ssprk3, bogacki-shampine
+
+**Implicit 隐式采样器** (20+种):
+- Gauss-Legendre: gauss-legendre_2s/3s/4s/5s
+- Radau: radau_ia/iia_2s/3s
+- Lobatto: lobatto_iii(a/b/c/d/star)_2s/3s
+
+**Diagonally Implicit 对角隐式** (7种):
+- crouzeix_2s/3s
+- pareschi_russo_2s/alt_2s
+- qin_zhang_2s
+- kraaijevanger_spijker_2s
+- irk_exp_diag_2s
+
+### 📊 性能特点
+
+**速度排名:**
+1. res_2m, dpmpp_2m (最快)
+2. res_2s, dpmpp_2s
+3. res_3s, dpmpp_3s
+4. res_5s
+5. gauss-legendre_5s (最慢但质量最高)
+
+**质量排名:**
+1. gauss-legendre_5s (极致质量)
+2. res_5s (最佳平衡)
+3. res_3s
+4. res_2s
+5. res_2m
+
+### 💡 推荐配置
+
+**RES4LYF 快速:**
+```
+Sampler: res_2m
+Steps: 20
+CFG: 6.0
+```
+
+**RES4LYF 高质量:**
+```
+Sampler: res_5s
+Steps: 15
+CFG: 7.0
+```
+
+**RES4LYF 极致:**
+```
+Sampler: gauss-legendre_5s
+Steps: 10
+CFG: 8.0
+```
+
+---
+
+## v2.2 (2025-11-13)
+
+### ✨ 新功能
+
+1. **完整量化支持**
+   - 添加 Base Precision 选择(7种选项)
+   - 添加完整的 Quantization 选择(12种选项)
+   - 支持 FP8、FP4 等多种量化方式
+
+2. **完整注意力模式支持**
+   - 添加 8 种 Attention Mode 选择
+   - 包含 Flash Attention 2/3
+   - 完整的 SageAttention 系列支持
+   - 支持 FP4/FP8 加速模式
+
+3. **量化与注意力指南**
+   - 新增 "⚙️ Quantization & Attention" 标签页
+   - 详细说明各种量化方式的特点
+   - 提供不同显卡的推荐配置
+   - 性能对比表格
+
+### 📦 量化选项
+
+**Base Precision:**
+- disabled (自动检测)
+- fp32, bf16, fp16
+- fp16_fast
+- fp8_e4m3fn, fp8_e4m3fn_fast
+
+**Quantization:**
+- FP8 E4M3FN: fp8_e4m3fn, fp8_e4m3fn_fast, fp8_e4m3fn_scaled, fp8_e4m3fn_scaled_fast
+- FP8 E5M2: fp8_e5m2, fp8_e5m2_fast, fp8_e5m2_scaled, fp8_e5m2_scaled_fast
+- FP4: fp4_experimental, fp4_scaled, fp4_scaled_fast
+
+### 🧠 注意力模式
+
+- sdpa (标准)
+- flash_attn_2, flash_attn_3
+- sageattn, sageattn_3
+- sageattn_3_fp8 (最快)
+- sageattn_3_fp4 (RTX 5090专用)
+- radial_sage_attention
+
+### 🎮 显卡推荐配置
+
+**RTX 5090:**
+```
+Base: fp8_e4m3fn_fast
+Quant: fp4_scaled_fast
+Attn: sageattn_3_fp4
+```
+
+**RTX 4090/4080:**
+```
+Base: bf16
+Quant: fp8_e4m3fn_fast
+Attn: sageattn_3_fp8
+```
+
+**RTX 3090/3080:**
+```
+Base: bf16
+Quant: fp8_e5m2
+Attn: sageattn
+```
+
+---
+
+## v2.1 (2025-11-13)
+
+### ✨ 新功能
+
+1. **完整采样器支持**
+   - 添加了 27 种采样器选择
+   - 包含所有 ComfyUI-WanVideoWrapper 支持的采样器
+   - 特别添加易经五行(IChingWuxing)系列采样器
+
+2. **易经五行采样器**
+   基于中国传统易经五行理论的创新采样器:
+   - iching/wuxing - 标准五行模式
+   - iching/wuxing-strong - 强化模式
+   - iching/wuxing-stable - 稳定模式
+   - iching/wuxing-smooth - 平滑模式
+   - iching/wuxing-clean - 清晰模式
+   - iching/wuxing-sharp - 锐化模式
+   - iching/wuxing-lowstep - 低步数优化
+
+3. **采样器使用指南**
+   - 新增 "Scheduler Guide" 标签页
+   - 详细说明每个采样器的特点
+   - 提供参数建议和使用技巧
+   - 中文说明,易于理解
+
+### 🔧 采样器列表
+
+**快速采样器 (4-8步):**
+- unipc, dpm++, euler
+- sa_ode_stable/lowstep
+- ode/+
+- rcm
+- lcm, lcm/beta, humo_lcm
+
+**标准采样器 (20-30步):**
+- unipc, unipc/beta
+- dpm++, dpm++/beta
+- dpm++_sde, dpm++_sde/beta
+- euler, euler/beta
+- res_multistep
+
+**高质量采样器 (50+步):**
+- dpm++/beta
+- deis
+- flowmatch_sa_ode_stable
+
+**特殊用途:**
+- flowmatch_pusa
+- flowmatch_causvid
+- flowmatch_distill
+- flowmatch_lowstep_d
+- multitalk
+
+### 📖 使用建议
+
+**快速测试:**
+```
+采样器: unipc
+步数: 4
+CFG: 1.0
+Shift: 5.0
+```
+
+**标准质量:**
+```
+采样器: unipc 或 iching/wuxing
+步数: 30
+CFG: 6.0
+Shift: 5.0
+```
+
+**最佳质量:**
+```
+采样器: dpm++/beta
+步数: 50
+CFG: 8.0
+Shift: 5.0
+```
+
+**易经风格 - 人物:**
+```
+采样器: iching/wuxing-stable 或 iching/wuxing-smooth
+步数: 30
+CFG: 6.0
+Shift: 6.0
+```
+
+**易经风格 - 风景:**
+```
+采样器: iching/wuxing-strong 或 iching/wuxing-sharp
+步数: 30
+CFG: 7.0
+Shift: 6.0
+```
+
+---
+
+## v2.0 (2025-11-13)
+
+### 🎉 重大修复
+
+1. **修复视频生成核心问题**
+   - 修复 text_embeds 传递问题
+   - 禁用 latent preview 避免维度错误
+   - 修复 ProgressBar 参数问题
+
+2. **模型加载优化**
+   - 修复 T5 模型扫描路径
+   - 正确扫描 text_encoders 目录
+   - 添加详细的调试日志
+
+3. **兼容性改进**
+   - 完善 ComfyUI stub 实现
+   - 修复 ModelPatcher 属性转发
+   - 添加 latent_format 支持
+
+### 🐛 已知问题修复
+
+- ✅ 修复 "mat1 and mat2 shapes cannot be multiplied" 错误
+- ✅ 修复 "NoneType has no attribute send_sync" 错误
+- ✅ 修复 T5 模型只显示 2 个的问题
+- ✅ 修复 latent preview 维度不匹配
+
+---
+
+## v1.0 (初始版本)
+
+### 基础功能
+
+- Text-to-Video 视频生成
+- 模型、VAE、T5 选择
+- 基础参数调整
+- LoRA 支持
+- 优化选项(Compile, Block Swap)
+
+========================================

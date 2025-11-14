@@ -1,0 +1,198 @@
+========================================
+  WanVideo 快速配置参考卡片 v3.0
+  包含文生视频 (T2V) 和图生视频 (I2V)
+========================================
+
+## 🚀 RTX 5090 (极致性能)
+
+```
+Base Precision:  fp8_e4m3fn_fast
+Quantization:    fp4_scaled_fast
+Attention:       sageattn_3_fp4
+Scheduler:       unipc
+Steps:           4-8 (快速) / 30 (标准)
+CFG:             1.0 (快速) / 6.0 (标准)
+```
+
+**特点:** 最快速度,最低显存,需要FP4 scaled权重
+
+
+## ⚡ RTX 4090 / 4080 (高性能)
+
+```
+Base Precision:  bf16
+Quantization:    fp8_e4m3fn_fast
+Attention:       sageattn_3_fp8
+Scheduler:       unipc
+Steps:           4-8 (快速) / 30 (标准)
+CFG:             1.0 (快速) / 6.0 (标准)
+```
+
+**特点:** 速度快,显存占用低,推荐配置 ⭐⭐⭐⭐⭐
+
+
+## 🎯 RTX 4070 / 4060 (平衡)
+
+```
+Base Precision:  bf16
+Quantization:    fp8_e4m3fn
+Attention:       sageattn
+Scheduler:       unipc
+Steps:           4-8 (快速) / 30 (标准)
+CFG:             1.0 (快速) / 6.0 (标准)
+```
+
+**特点:** 平衡性能和兼容性
+
+
+## 💪 RTX 3090 / 3080 (稳定)
+
+```
+Base Precision:  bf16
+Quantization:    fp8_e5m2
+Attention:       sageattn
+Scheduler:       unipc
+Steps:           8 (快速) / 30 (标准)
+CFG:             1.0 (快速) / 6.0 (标准)
+```
+
+**特点:** 稳定可靠,算力<8.9不支持fast模式
+
+
+## 📱 RTX 3070 / 3060 (兼容)
+
+```
+Base Precision:  fp16
+Quantization:    disabled
+Attention:       sdpa
+Scheduler:       unipc
+Steps:           8 (快速) / 30 (标准)
+CFG:             1.0 (快速) / 6.0 (标准)
+```
+
+**特点:** 最大兼容性,显存占用较高
+
+
+========================================
+
+## 🌟 易经风格推荐
+
+### 人物视频
+```
+Scheduler:       iching/wuxing-stable
+Steps:           30
+CFG:             6.0
+Shift:           6.0
+```
+
+### 风景视频
+```
+Scheduler:       iching/wuxing-strong
+Steps:           30
+CFG:             7.0
+Shift:           6.0
+```
+
+### 快速预览
+```
+Scheduler:       iching/wuxing-lowstep
+Steps:           8
+CFG:             5.0
+Shift:           6.0
+```
+
+
+========================================
+
+## 📊 性能对比
+
+| 配置 | 速度 | 显存 | 质量 |
+|------|------|------|------|
+| RTX 5090 FP4 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
+| RTX 4090 FP8 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| RTX 4070 FP8 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| RTX 3090 E5M2 | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ |
+| RTX 3070 FP16 | ⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐ |
+
+
+========================================
+
+## 💡 快速测试命令
+
+**最快速度测试 (4步):**
+```
+Width: 640
+Height: 384
+Frames: 31
+Steps: 4
+CFG: 1.0
+Scheduler: unipc
+```
+
+**标准质量 (30步):**
+```
+Width: 1280
+Height: 720
+Frames: 61
+Steps: 30
+CFG: 6.0
+Scheduler: unipc
+```
+
+**易经风格测试:**
+```
+Width: 1280
+Height: 720
+Frames: 61
+Steps: 30
+CFG: 6.0
+Scheduler: iching/wuxing-stable
+```
+
+
+========================================
+
+## 🖼️ 图生视频 (I2V) 快速配置
+
+### Standard I2V (标准模式)
+```
+Mode:            Standard I2V
+Resolution:      832x480
+Frames:          81
+Steps:           30
+CFG:             6.0
+Scheduler:       unipc
+```
+**适用:** 通用图片转视频
+
+### InfiniteTalk (长视频/说话人物)
+```
+Mode:            InfiniteTalk
+Resolution:      832x480
+Frames:          161+
+Frame Window:    77
+Motion Frame:    4
+Steps:           30
+CFG:             6.0
+Scheduler:       res_2m
+Model:           Wan2_1-InfiniteTalk-*.safetensors
+```
+**适用:** 人物说话视频,支持音频驱动
+
+### WanAnimate (高质量动画)
+```
+Mode:            WanAnimate
+Resolution:      832x480
+Frames:          81
+Frame Window:    77
+Pose Strength:   1.0
+Face Strength:   1.0
+Steps:           30
+CFG:             7.0
+Scheduler:       res_5s
+Model:           wan2.2_animate_*.safetensors
+```
+**适用:** 高质量动画,精确控制姿态和表情
+
+
+========================================

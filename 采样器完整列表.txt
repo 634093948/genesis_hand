@@ -1,0 +1,238 @@
+========================================
+  WanVideo Genesis 采样器完整列表
+  总计: 97+ 种采样器
+========================================
+
+## 📊 采样器分类统计
+
+- WanVideo 标准采样器: 19种
+- IChingWuxing 易经五行: 7种  
+- RES4LYF 高级采样器: 71种
+
+---
+
+## 🎯 WanVideo 标准采样器 (19种)
+
+### 快速采样器
+- unipc, unipc/beta
+- dpm++, dpm++/beta
+- dpm++_sde, dpm++_sde/beta
+- euler, euler/beta
+- deis
+
+### LCM系列
+- lcm, lcm/beta
+- humo_lcm
+
+### FlowMatch系列
+- flowmatch_causvid
+- flowmatch_distill
+- flowmatch_pusa
+- flowmatch_lowstep_d
+- flowmatch_sa_ode_stable
+- sa_ode_stable/lowstep
+
+### 其他
+- res_multistep
+- ode/+
+- multitalk
+- rcm
+
+---
+
+## 🌟 IChingWuxing 易经五行系列 (7种)
+
+基于中国传统易经五行理论:
+
+- iching/wuxing - 标准五行模式
+- iching/wuxing-strong - 强化模式
+- iching/wuxing-stable - 稳定模式
+- iching/wuxing-smooth - 平滑模式
+- iching/wuxing-clean - 清晰模式
+- iching/wuxing-sharp - 锐化模式
+- iching/wuxing-lowstep - 低步数优化
+
+---
+
+## 🔬 RES4LYF 高级采样器 (71种)
+
+### Explicit 显式采样器 (40+种)
+
+**RES 系列** (最佳质量):
+- res_2m - 2阶多步
+- res_2s - 2阶子步
+- res_3s - 3阶子步
+- res_5s - 5阶子步 ⭐⭐⭐
+
+**DEIS 系列**:
+- deis_2m - 2阶多步
+- deis_3m - 3阶多步
+- deis_4m - 4阶多步
+
+**DPM++ 系列**:
+- dpmpp_2m - 2阶多步
+- dpmpp_3m - 3阶多步
+- dpmpp_2s - 2阶子步
+- dpmpp_3s - 3阶子步
+- dpmpp_sde_2s - SDE版本
+
+**Ralston 系列**:
+- ralston_2s - 2阶
+- ralston_3s - 3阶
+- ralston_4s - 4阶
+
+**Heun 系列**:
+- heun_2s - 2阶
+- heun_3s - 3阶
+
+**经典 Runge-Kutta**:
+- rk4_4s - 经典4阶RK
+- rk38_4s - 3/8规则RK
+- dormand-prince_6s - 6阶高精度
+- dormand-prince_13s - 13阶超高精度
+- bogacki-shampine_7s - 7阶
+
+**其他显式方法**:
+- midpoint_2s - 中点法
+- houwen-wray_3s - Houwen-Wray方法
+- kutta_3s - Kutta方法
+- ssprk3_3s - 强稳定保持RK
+- ddim - DDIM采样器
+- euler - 欧拉方法
+
+### Implicit 隐式采样器 (20+种)
+
+⚠️ 速度慢但质量极高
+
+**Gauss-Legendre 系列**:
+- gauss-legendre_2s - 2阶
+- gauss-legendre_3s - 3阶
+- gauss-legendre_4s - 4阶
+- gauss-legendre_5s - 5阶 ⭐⭐⭐
+
+**Radau IA 系列**:
+- radau_ia_2s - 2阶
+- radau_ia_3s - 3阶
+
+**Radau IIA 系列**:
+- radau_iia_2s - 2阶
+- radau_iia_3s - 3阶
+
+**Lobatto IIIA 系列**:
+- lobatto_iiia_2s - 2阶
+- lobatto_iiia_3s - 3阶
+
+**Lobatto IIIB 系列**:
+- lobatto_iiib_2s - 2阶
+- lobatto_iiib_3s - 3阶
+
+**Lobatto IIIC 系列**:
+- lobatto_iiic_2s - 2阶
+- lobatto_iiic_3s - 3阶
+
+**Lobatto IIID 系列**:
+- lobatto_iiid_2s - 2阶
+- lobatto_iiid_3s - 3阶
+
+**Lobatto IIIStar 系列**:
+- lobatto_iiistar_2s - 2阶
+- lobatto_iiistar_3s - 3阶
+
+### Diagonally Implicit 对角隐式 (7种)
+
+- kraaijevanger_spijker_2s
+- qin_zhang_2s
+- pareschi_russo_2s
+- pareschi_russo_alt_2s
+- crouzeix_2s
+- crouzeix_3s
+- irk_exp_diag_2s - 指数积分器
+
+---
+
+## 📈 性能对比
+
+### 速度排名 (从快到慢)
+
+1. ⚡⚡⚡⚡⚡ unipc, res_2m, dpmpp_2m, euler
+2. ⚡⚡⚡⚡ res_2s, dpmpp_2s, deis_2m
+3. ⚡⚡⚡ res_3s, dpmpp_3s, heun_2s
+4. ⚡⚡ res_5s, rk4_4s
+5. ⚡ gauss-legendre_5s, dormand-prince_13s
+
+### 质量排名 (从高到低)
+
+1. ⭐⭐⭐⭐⭐ gauss-legendre_5s, res_5s
+2. ⭐⭐⭐⭐ res_3s, dormand-prince_6s
+3. ⭐⭐⭐ res_2s, rk4_4s
+4. ⭐⭐ res_2m, dpmpp_2m
+5. ⭐ euler, unipc
+
+---
+
+## 💡 推荐配置
+
+### 快速测试 (4-8步)
+```
+unipc / res_2m / rcm
+Steps: 4-8
+CFG: 1.0
+```
+
+### 标准质量 (20-30步)
+```
+unipc / res_2m / iching/wuxing
+Steps: 20-30
+CFG: 6.0
+```
+
+### 高质量 (15-25步)
+```
+res_5s / res_3s
+Steps: 15-25
+CFG: 7.0
+```
+
+### 极致质量 (10-15步)
+```
+gauss-legendre_5s / gauss-legendre_4s
+Steps: 10-15
+CFG: 8.0
+```
+
+### 易经风格
+```
+iching/wuxing-stable (人物)
+iching/wuxing-strong (风景)
+Steps: 30
+CFG: 6.0-7.0
+```
+
+---
+
+## 📝 术语说明
+
+**m (multistep)**: 多步方法,使用之前的步骤作为估计,速度快
+**s (substep)**: 子步方法,每步进行多次模型调用,质量高但速度慢
+
+**数字含义**:
+- 2s = 2阶子步 = 每步2次模型调用
+- 3s = 3阶子步 = 每步3次模型调用
+- 5s = 5阶子步 = 每步5次模型调用
+
+**示例**:
+- res_2m: 速度 = euler × 1, 质量 = ⭐⭐⭐⭐
+- res_2s: 速度 = euler × 2, 质量 = ⭐⭐⭐⭐⭐
+- res_5s: 速度 = euler × 5, 质量 = ⭐⭐⭐⭐⭐
+
+---
+
+## ⚠️ 注意事项
+
+1. **Implicit 采样器**非常慢,但质量极高
+2. **子步数越多**,速度越慢,质量越高
+3. **RES4LYF 采样器**通常只需20步即可达到其他采样器50+步的质量
+4. **易经五行**适合特定风格,需要配合合适的参数
+5. 不同采样器对**CFG和Shift**敏感度不同
+
+========================================

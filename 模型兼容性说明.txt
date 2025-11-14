@@ -1,0 +1,90 @@
+========================================
+  WanVideo 模型兼容性说明
+========================================
+
+## 🔴 错误: tensor size (16) vs (48)
+
+这个错误表明模型和 VAE 的版本不匹配!
+
+### 模型类型识别:
+
+**14B 模型:**
+- Latent channels: 16
+- Out dim: 16
+- VAE: Wan 2.1 或 2.2 VAE
+
+**5B 模型:**
+- Latent channels: 16  
+- Out dim: 48
+- VAE: 5B 专用 VAE
+
+**1.3B 模型:**
+- Latent channels: 16
+- Out dim: 16
+- VAE: Wan 2.1 VAE
+
+
+## ✅ 您的模型
+
+根据文件名判断:
+- `wan2.2-rapid-mega-aio-nsfw-v9.safetensors`
+  → 这是 **Wan 2.2 14B** 模型
+
+应该使用的 VAE:
+- `ComfyUI-wan2.2_vae.safetensors` ✅
+- `Wan2_1_VAE_fp32.safetensors` (也兼容)
+
+
+## ❌ 可能的问题
+
+1. **模型文件损坏或不完整**
+   - 文件大小应该约 22GB
+   - 如果小于这个,可能下载不完整
+
+2. **模型实际上是 5B 版本**
+   - 虽然文件名说是 2.2,但可能实际是 5B
+   - 5B 模型需要专门的 VAE
+
+3. **VAE 加载错误**
+   - VAE 可能加载了错误的版本
+
+
+## 🔍 诊断步骤
+
+请提供以下信息:
+
+1. 模型文件大小:
+   ```
+   dir "E:\liliyuanshangmie\Fuxkcomfy_lris_kernel_gen2-4_speed_safe\FuxkComfy\models\diffusion_models\wan\maga\wan2.2-rapid-mega-aio-nsfw-v9.safetensors"
+   ```
+
+2. 日志中的模型信息:
+   - Model variant detected: ?
+   - Detected model in_channels: ?
+   - Out dim: ?
+
+3. VAE 信息:
+   - 您选择的 VAE 文件名
+   - VAE 文件大小
+
+
+## 🎯 临时解决方案
+
+如果这个模型有问题,请尝试其他模型:
+
+### 选项 1: 使用 IceCannon 2.1
+```
+Model: wan\icecan\Wan2_IceCannon2.1_i2v_fp8_e4m3fn_scaled_ED_Absolute obedience_4.safetensors
+VAE:   Wan2_1_VAE_fp32.safetensors
+T5:    umt5-xxl-enc-fp8_e4m3fn.safetensors
+```
+
+### 选项 2: 使用 Palingenesis
+```
+Model: wan\Palingenesis\WAN22.XX_Palingenesis_high_t2v.safetensors
+VAE:   ComfyUI-wan2.2_vae.safetensors
+T5:    umt5-xxl-enc-fp8_e4m3fn.safetensors
+```
+
+
+========================================

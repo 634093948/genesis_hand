@@ -1,0 +1,91 @@
+========================================
+  WanVideo 模型组合指南
+========================================
+
+## ✅ 正确的组合
+
+### 组合 1: Wan 2.2 (推荐)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+模型: wan/maga/wan2.2-rapid-mega-aio-nsfw-v9.safetensors
+VAE:  ComfyUI-wan2.2_vae.safetensors
+T5:   umt5-xxl-enc-fp8_e4m3fn.safetensors
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+### 组合 2: Wan 2.1 (备选)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+模型: (需要 2.1 版本模型)
+VAE:  Wan2_1_VAE_fp32.safetensors
+T5:   umt5-xxl-enc-fp8_e4m3fn.safetensors
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+## ⚠️ 重要说明
+
+1. **版本必须匹配**
+   - Wan 2.2 模型 → 必须用 Wan 2.2 VAE
+   - Wan 2.1 模型 → 必须用 Wan 2.1 VAE
+   - 不能混用!
+
+2. **T5 编码器**
+   - 所有版本都可以用同一个 T5
+   - 推荐: umt5-xxl-enc-fp8_e4m3fn.safetensors (最快)
+   - 备选: models_t5_umt5-xxl-enc-fp8_fully_uncensored.safetensors
+
+3. **常见错误**
+   - ❌ Wan 2.2 模型 + Wan 2.1 VAE → 维度不匹配
+   - ❌ 选错 VAE → mat1 and mat2 错误
+   - ✅ 版本对应 → 正常工作
+
+
+## 📋 您当前的模型
+
+可用的模型:
+- wan2.2-rapid-mega-aio-nsfw-v9.safetensors (Wan 2.2)
+
+可用的 VAE:
+- ComfyUI-wan2.2_vae.safetensors ✅ (匹配 2.2)
+- ComfyUI-wan_2.1_vae.safetensors (2.1)
+- Wan2_1_VAE_bf16.safetensors (2.1)
+- Wan2_1_VAE_fp32.safetensors (2.1)
+
+可用的 T5:
+- umt5-xxl-enc-fp8_e4m3fn.safetensors ✅ (推荐)
+- models_t5_umt5-xxl-enc-fp8_fully_uncensored.safetensors
+- models_t5_umt5-xxl-enc-bf16_fully_uncensored.safetensors
+
+
+## 🎯 您应该选择
+
+在 UI 中选择:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Diffusion Model:
+   wan/maga/wan2.2-rapid-mega-aio-nsfw-v9.safetensors
+
+2. VAE:
+   ComfyUI-wan2.2_vae.safetensors
+
+3. T5 Encoder:
+   umt5-xxl-enc-fp8_e4m3fn.safetensors
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+## 🚀 生成参数建议
+
+快速测试:
+- 宽度: 640
+- 高度: 360
+- 帧数: 31
+- 步数: 4
+- CFG: 1.0
+- Shift: 7.0
+
+标准质量:
+- 宽度: 1280
+- 高度: 720
+- 帧数: 61
+- 步数: 30
+- CFG: 7.0
+- Shift: 7.0
+
+
+========================================

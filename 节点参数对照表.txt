@@ -1,0 +1,208 @@
+========================================
+  WanVideo 节点参数对照表
+  所有加载器的正确参数名
+========================================
+
+## 📋 模型加载器参数
+
+### 1. WanVideoModelLoader
+
+**函数签名:**
+```python
+def loadmodel(self, 
+    model,              # ✅ 模型文件名
+    base_precision,     # ✅ 基础精度
+    load_device,        # ✅ 加载设备
+    quantization,       # ✅ 量化方式
+    compile_args=None,
+    attention_mode="sdpa",
+    block_swap_args=None,
+    lora=None,
+    ...
+)
+```
+
+**正确调用:**
+```python
+model_loader = NODE_CLASS_MAPPINGS['WanVideoModelLoader']()
+result = model_loader.loadmodel(
+    model="Wan2_1-InfiniteTalk-Single_fp16.safetensors",  # ✅ model
+    base_precision="bf16",
+    quantization="disabled",
+    load_device="offload_device",
+    attention_mode="sdpa"
+)
+```
+
+**❌ 常见错误:**
+```python
+# ❌ 错误: 使用 model_name
+result = model_loader.loadmodel(model_name="xxx")  # TypeError!
+```
+
+---
+
+### 2. WanVideoVAELoader
+
+**函数签名:**
+```python
+def loadmodel(self, 
+    model_name,         # ✅ VAE 模型文件名
+    precision,          # ✅ 精度
+    compile_args=None
+)
+```
+
+**正确调用:**
+```python
+vae_loader = NODE_CLASS_MAPPINGS['WanVideoVAELoader']()
+result = vae_loader.loadmodel(
+    model_name="wan_vae.safetensors",  # ✅ model_name
+    precision="bf16"
+)
+```
+
+**❌ 常见错误:**
+```python
+# ❌ 错误: 使用 vae_name
+result = vae_loader.loadmodel(vae_name="xxx")  # TypeError!
+```
+
+---
+
+### 3. LoadWanVideoT5TextEncoder
+
+**函数签名:**
+```python
+def loadmodel(self, 
+    model_name,         # ✅ T5 模型文件名
+    precision,          # ✅ 精度
+    load_device="offload_device",
+    quantization="disabled"
+)
+```
+
+**正确调用:**
+```python
+t5_loader = NODE_CLASS_MAPPINGS['LoadWanVideoT5TextEncoder']()
+result = t5_loader.loadmodel(
+    model_name="google_t5-v1_1-xxl",  # ✅ model_name
+    precision="bf16",
+    load_device="offload_device"
+)
+```
+
+**❌ 常见错误:**
+```python
+# ❌ 错误: 使用 t5_model
+result = t5_loader.loadmodel(t5_model="xxx")  # TypeError!
+```
+
+---
+
+## 📊 参数名总结
+
+| 节点 | 参数名 | 说明 |
+|------|--------|------|
+| WanVideoModelLoader | `model` | ⚠️ 注意不是 model_name |
+| WanVideoVAELoader | `model_name` | ✅ 使用 model_name |
+| LoadWanVideoT5TextEncoder | `model_name` | ✅ 使用 model_name |
+
+## 🎯 记忆技巧
+
+**WanVideoModelLoader 比较特殊:**
+- 其他加载器都用 `model_name`
+- 只有 WanVideoModelLoader 用 `model` (没有 _name 后缀)
+
+**为什么不一致?**
+- 因为 WanVideoModelLoader 有很多可选参数
+- 使用简短的 `model` 更简洁
+- 其他加载器参数较少,使用 `model_name` 更明确
+
+---
+
+## ✅ 完整示例
+
+```python
+# 加载所有模型的正确方式
+def load_all_models(model_name, vae_name, t5_name):
+    # 1. 加载 Diffusion Model
+    model_loader = NODE_CLASS_MAPPINGS['WanVideoModelLoader']()
+    model_result = model_loader.loadmodel(
+        model=model_name,  # ⚠️ 注意: model (不是 model_name)
+        base_precision="bf16",
+        quantization="disabled",
+        load_device="offload_device",
+        attention_mode="sdpa"
+    )
+    model = model_result[0]
+    
+    # 2. 加载 VAE
+    vae_loader = NODE_CLASS_MAPPINGS['WanVideoVAELoader']()
+    vae_result = vae_loader.loadmodel(
+        model_name=vae_name,  # ✅ model_name
+        precision="bf16"
+    )
+    vae = vae_result[0]
+    
+    # 3. 加载 T5
+    t5_loader = NODE_CLASS_MAPPINGS['LoadWanVideoT5TextEncoder']()
+    t5_result = t5_loader.loadmodel(
+        model_name=t5_name,  # ✅ model_name
+        precision="bf16",
+        load_device="offload_device"
+    )
+    t5 = t5_result[0]
+    
+    return model, vae, t5
+```
+
+---
+
+## 🔍 如何查找正确参数
+
+### 方法 1: 查看节点定义
+```python
+# 查看 INPUT_TYPES
+class WanVideoModelLoader:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "model": (...),  # ← 这里是参数名
+                ...
+            }
+        }
+    
+    def loadmodel(self, model, ...):  # ← 函数签名
+        ...
+```
+
+### 方法 2: 查看 FUNCTION 定义
+```python
+FUNCTION = "loadmodel"  # 函数名
+
+def loadmodel(self, model, base_precision, ...):
+    # 第一个参数(self除外)就是主要参数
+    ...
+```
+
+---
+
+## 📝 修复记录
+
+**文件:** `wanvideo_gradio_app.py`
+**位置:** 第 220-245 行
+
+**修复内容:**
+1. ✅ WanVideoModelLoader: `model_name` → `model`
+2. ✅ WanVideoVAELoader: `vae_name` → `model_name`
+3. ✅ LoadWanVideoT5TextEncoder: `t5_model` → `model_name`
+
+---
+
+## 🎉 现在应该能正常工作了!
+
+所有参数名都已修复,模型加载应该不会再报错。
+
+========================================

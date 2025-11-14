@@ -1,0 +1,62 @@
+========================================
+  启动错误修复说明
+  NameError: scheduler_choices not defined
+========================================
+
+## 🐛 错误信息
+
+```
+NameError: name 'scheduler_choices' is not defined
+```
+
+## 🔍 问题原因
+
+在 I2V 标签页中使用了 `scheduler_choices` 变量,但该变量在使用前没有定义。
+
+## ✅ 修复方案
+
+在 `create_interface()` 函数中,在创建 Gradio 界面之前定义 `scheduler_choices` 列表:
+
+```python
+# Define scheduler choices (used by both T2V and I2V)
+scheduler_choices = [
+    # WanVideo 标准采样器
+    "unipc", "unipc/beta",
+    "dpm++", "dpm++/beta",
+    "dpm++_sde", "dpm++_sde/beta",
+    # ... 所有 97+ 种采样器
+]
+
+# Create interface with tabs
+with gr.Blocks(...) as interface:
+    # ...
+```
+
+## 📝 修改位置
+
+**文件:** `wanvideo_gradio_app.py`
+**行号:** 965-1028 (新增)
+
+## 🎯 修复效果
+
+1. ✅ 文生视频和图生视频共享同一个采样器列表
+2. ✅ 避免重复定义
+3. ✅ 易于维护和更新
+4. ✅ 两个标签页的采样器保持一致
+
+## 🚀 现在可以正常启动了
+
+重新运行:
+```bash
+VIDEO.bat
+```
+
+应该看到:
+```
+[INFO] Loading WanVideo Gradio App v3.0.1 - I2V Fixes
+[INFO] Successfully loaded 121 nodes from ComfyUI-WanVideoWrapper
+[INFO] All essential nodes loaded successfully
+Running on local URL:  http://127.0.0.1:7860
+```
+
+========================================

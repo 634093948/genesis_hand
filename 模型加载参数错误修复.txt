@@ -1,0 +1,135 @@
+========================================
+  模型加载参数错误修复
+  TypeError: unexpected keyword argument
+========================================
+
+## 🐛 错误信息
+
+```
+TypeError: WanVideoModelLoader.loadmodel() got an unexpected keyword argument 'model_name'
+```
+
+## 🔍 问题原因
+
+在 `generate_image_to_video` 函数中,调用 `WanVideoModelLoader.loadmodel()` 时使用了错误的参数名:
+- 使用了: `model_name=model_name`
+- 应该是: `model=model_name`
+
+## 📋 正确的参数名
+
+### WanVideoModelLoader.loadmodel()
+
+```python
+def loadmodel(self, 
+    model,              # ✅ 正确: model (不是 model_name)
+    base_precision, 
+    load_device,        # ✅ 必需参数
+    quantization,
+    compile_args=None, 
+    attention_mode="sdpa",
+    ...
+)
+```
+
+### WanVideoVAELoader.loadmodel()
+
+```python
+def loadmodel(self, 
+    vae_name,           # ✅ 正确: vae_name
+    ...
+)
+```
+
+### LoadWanVideoT5TextEncoder.loadmodel()
+
+```python
+def loadmodel(self, 
+    t5_model,           # ✅ 正确: t5_model
+    ...
+)
+```
+
+## ✅ 修复方案
+
+**文件:** `wanvideo_gradio_app.py`
+**位置:** 第 220-226 行
+
+### 修改前:
+```python
+model_result = model_loader.loadmodel(
+    model_name=model_name,  # ❌ 错误的参数名
+    base_precision=base_precision,
+    quantization=quantization,
+    attention_mode=attention_mode
+)
+```
+
+### 修改后:
+```python
+model_result = model_loader.loadmodel(
+    model=model_name,  # ✅ 正确的参数名
+    base_precision=base_precision,
+    quantization=quantization,
+    load_device="offload_device",  # ✅ 添加必需参数
+    attention_mode=attention_mode
+)
+```
+
+## 📝 关键点
+
+1. **参数名必须完全匹配节点定义**
+2. **必需参数不能省略** (如 `load_device`)
+3. **可选参数可以省略** (如 `compile_args`)
+
+## 🎯 参数说明
+
+### model
+- 类型: 字符串
+- 说明: 模型文件名
+- 示例: `"Wan2_1-InfiniteTalk-Single_fp16.safetensors"`
+
+### base_precision
+- 类型: 字符串
+- 选项: `"disabled"`, `"fp32"`, `"bf16"`, `"fp16"`, `"fp16_fast"`, `"fp8_e4m3fn"`, `"fp8_e4m3fn_fast"`
+- 默认: `"bf16"`
+
+### load_device
+- 类型: 字符串
+- 选项: `"main_device"`, `"offload_device"`
+- 默认: `"offload_device"`
+- 说明: 初始加载设备,推荐使用 offload_device
+
+### quantization
+- 类型: 字符串
+- 选项: `"disabled"`, `"fp8_e4m3fn"`, `"fp8_e4m3fn_fast"`, `"fp8_e5m2"`, `"fp4_scaled"`, 等
+- 默认: `"disabled"`
+
+### attention_mode
+- 类型: 字符串
+- 选项: `"sdpa"`, `"flash_attn_2"`, `"flash_attn_3"`, `"sageattn"`, `"sageattn_3_fp8"`, 等
+- 默认: `"sdpa"`
+
+## 🧪 测试
+
+修复后重新测试:
+1. 启动应用
+2. 切换到 "🖼️ Image to Video" 标签页
+3. 上传图片
+4. 点击生成
+
+**应该看到:**
+```
+[INFO] Loading models...
+[INFO] Model loaded: Wan2_1-InfiniteTalk-Single_fp16.safetensors
+[INFO] VAE loaded: wan_vae.safetensors
+[INFO] T5 loaded: google_t5-v1_1-xxl
+```
+
+## 📚 参考
+
+查看节点定义:
+- `nodes_model_loading.py` 第 971-1013 行 - WanVideoModelLoader
+- `nodes_model_loading.py` - WanVideoVAELoader
+- `nodes_model_loading.py` - LoadWanVideoT5TextEncoder
+
+========================================
