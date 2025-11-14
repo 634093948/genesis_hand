@@ -1,0 +1,14 @@
+.github/workflows/publish.yml
+.gitignore
+LICENSE.txt
+Nodes/Terminal.py
+README.md
+README_en.md
+__init__.py
+config.json
+pyproject.toml
+requirements.txt
+setting.png
+web/Terminal.js
+web/Util.js
+web/hot_reload.js

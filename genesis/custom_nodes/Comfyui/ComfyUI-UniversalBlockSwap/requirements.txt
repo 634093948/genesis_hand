@@ -1,0 +1,8 @@
+# Universal BlockSwap Dependencies
+# 基础依赖
+torch>=1.13.0
+numpy>=1.21.0
+
+# 可选优化依赖
+# triton>=2.0.0  # 用于更高级的GPU优化 (可选)
+# cupy-cuda11x>=11.0.0  # CUDA加速库 (可选)

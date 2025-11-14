@@ -1,0 +1,15 @@
+.gitattributes
+.github/CODE_OF_CONDUCT.md
+.github/workflows/publish.yml
+.gitignore
+.pre-commit-config.yaml
+AUTHORS
+CHANGELOG.md
+LICENSE
+README.md
+__init__.py
+nodes.py
+pyproject.toml
+requirements.txt
+screenshots/race_gender.jpg
+utils.py

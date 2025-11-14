@@ -1,0 +1,15 @@
+[project]
+name = "comfyui-torchcompilespeed"
+version = "1.0.0"
+description = "Standalone torch.compile optimization node for ComfyUI with speed-focused presets"
+authors = [{name = "eddy"}]
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+
+[project.urls]
+Repository = "https://github.com/yourusername/ComfyUI-TorchCompileSpeed"
+
+[tool.setuptools]
+packages = ["comfyui_torchcompilespeed"]
+

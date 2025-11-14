@@ -1,0 +1,19 @@
+#blocked = #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [1], order = [0]}>
+#loc = loc("C:\\Users\\Administrator\\AppData\\Local\\Temp\\torchinductor_Administrator\\6p\\c6pnoxocr7sjy2rin3klvl3boulwjizzyqf7n6wtmy7r3lhrf3y4.py":18:0)
+module attributes {"ttg.num-ctas" = 1 : i32, "ttg.num-warps" = 1 : i32, ttg.target = "cuda:120", "ttg.threads-per-warp" = 32 : i32} {
+  tt.func public @triton_poi_fused_mul_2(%arg0: !tt.ptr<i64> {tt.divisibility = 16 : i32} loc("C:\\Users\\Administrator\\AppData\\Local\\Temp\\torchinductor_Administrator\\6p\\c6pnoxocr7sjy2rin3klvl3boulwjizzyqf7n6wtmy7r3lhrf3y4.py":18:0), %arg1: !tt.ptr<i64> {tt.divisibility = 16 : i32} loc("C:\\Users\\Administrator\\AppData\\Local\\Temp\\torchinductor_Administrator\\6p\\c6pnoxocr7sjy2rin3klvl3boulwjizzyqf7n6wtmy7r3lhrf3y4.py":18:0), %arg2: !tt.ptr<i64> {tt.divisibility = 16 : i32} loc("C:\\Users\\Administrator\\AppData\\Local\\Temp\\torchinductor_Administrator\\6p\\c6pnoxocr7sjy2rin3klvl3boulwjizzyqf7n6wtmy7r3lhrf3y4.py":18:0)) attributes {noinline = false} {
+    %0 = tt.load %arg0 : !tt.ptr<i64> loc(#loc1)
+    %1 = tt.load %arg1 : !tt.ptr<i64> loc(#loc2)
+    %2 = arith.muli %0, %1 : i64 loc(#loc3)
+    %3 = tt.splat %2 : i64 -> tensor<1xi64, #blocked> loc(#loc3)
+    %4 = tt.splat %arg2 : !tt.ptr<i64> -> tensor<1x!tt.ptr<i64>, #blocked> loc(#loc4)
+    tt.store %4, %3 : tensor<1x!tt.ptr<i64>, #blocked> loc(#loc5)
+    tt.return loc(#loc6)
+  } loc(#loc)
+} loc(#loc)
+#loc1 = loc("C:\\Users\\Administrator\\AppData\\Local\\Temp\\torchinductor_Administrator\\6p\\c6pnoxocr7sjy2rin3klvl3boulwjizzyqf7n6wtmy7r3lhrf3y4.py":23:19)
+#loc2 = loc("C:\\Users\\Administrator\\AppData\\Local\\Temp\\torchinductor_Administrator\\6p\\c6pnoxocr7sjy2rin3klvl3boulwjizzyqf7n6wtmy7r3lhrf3y4.py":25:19)
+#loc3 = loc("C:\\Users\\Administrator\\AppData\\Local\\Temp\\torchinductor_Administrator\\6p\\c6pnoxocr7sjy2rin3klvl3boulwjizzyqf7n6wtmy7r3lhrf3y4.py":27:18)
+#loc4 = loc("C:\\Users\\Administrator\\AppData\\Local\\Temp\\torchinductor_Administrator\\6p\\c6pnoxocr7sjy2rin3klvl3boulwjizzyqf7n6wtmy7r3lhrf3y4.py":28:25)
+#loc5 = loc("C:\\Users\\Administrator\\AppData\\Local\\Temp\\torchinductor_Administrator\\6p\\c6pnoxocr7sjy2rin3klvl3boulwjizzyqf7n6wtmy7r3lhrf3y4.py":28:64)
+#loc6 = loc("C:\\Users\\Administrator\\AppData\\Local\\Temp\\torchinductor_Administrator\\6p\\c6pnoxocr7sjy2rin3klvl3boulwjizzyqf7n6wtmy7r3lhrf3y4.py":28:4)

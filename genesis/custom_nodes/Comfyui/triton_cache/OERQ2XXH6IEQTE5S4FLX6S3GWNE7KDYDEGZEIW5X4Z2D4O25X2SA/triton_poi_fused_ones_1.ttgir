@@ -1,0 +1,14 @@
+#blocked = #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [1], order = [0]}>
+#loc = loc("C:\\Users\\Administrator\\AppData\\Local\\Temp\\torchinductor_Administrator\\67\\c67z3bt7wlpndmsinbvd7jjijzansbfcoxweoxwhbqrjv4ubqcyl.py":18:0)
+module attributes {"ttg.num-ctas" = 1 : i32, "ttg.num-warps" = 1 : i32, ttg.target = "cuda:120", "ttg.threads-per-warp" = 32 : i32} {
+  tt.func public @triton_poi_fused_ones_1(%arg0: !tt.ptr<f32> {tt.divisibility = 16 : i32} loc("C:\\Users\\Administrator\\AppData\\Local\\Temp\\torchinductor_Administrator\\67\\c67z3bt7wlpndmsinbvd7jjijzansbfcoxweoxwhbqrjv4ubqcyl.py":18:0)) attributes {noinline = false} {
+    %cst = arith.constant dense<1.000000e+00> : tensor<1xf32, #blocked> loc(#loc1)
+    %0 = tt.splat %arg0 : !tt.ptr<f32> -> tensor<1x!tt.ptr<f32>, #blocked> loc(#loc2)
+    tt.store %0, %cst : tensor<1x!tt.ptr<f32>, #blocked> loc(#loc3)
+    tt.return loc(#loc4)
+  } loc(#loc)
+} loc(#loc)
+#loc1 = loc(unknown)
+#loc2 = loc("C:\\Users\\Administrator\\AppData\\Local\\Temp\\torchinductor_Administrator\\67\\c67z3bt7wlpndmsinbvd7jjijzansbfcoxweoxwhbqrjv4ubqcyl.py":24:25)
+#loc3 = loc("C:\\Users\\Administrator\\AppData\\Local\\Temp\\torchinductor_Administrator\\67\\c67z3bt7wlpndmsinbvd7jjijzansbfcoxweoxwhbqrjv4ubqcyl.py":24:64)
+#loc4 = loc("C:\\Users\\Administrator\\AppData\\Local\\Temp\\torchinductor_Administrator\\67\\c67z3bt7wlpndmsinbvd7jjijzansbfcoxweoxwhbqrjv4ubqcyl.py":24:4)

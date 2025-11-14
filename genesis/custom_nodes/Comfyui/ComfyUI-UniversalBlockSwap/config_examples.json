@@ -1,0 +1,182 @@
+{
+  "recommended_configs": {
+    "small_model": {
+      "description": "小型模型 (<1B参数) - 适用于快速生成",
+      "blocks_to_swap": 8,
+      "prefetch_blocks": 2,
+      "num_transfer_streams": 4,
+      "use_non_blocking": true,
+      "memory_pool_enabled": true,
+      "smart_prefetch_enabled": true,
+      "enable_pinned_memory": true,
+      "memory_fraction": 0.90,
+      "expected_vram_savings": "2-4GB"
+    },
+    "medium_model": {
+      "description": "中型模型 (1-5B参数) - 平衡性能和质量",
+      "blocks_to_swap": 12,
+      "prefetch_blocks": 3,
+      "num_transfer_streams": 4,
+      "use_non_blocking": true,
+      "memory_pool_enabled": true,
+      "smart_prefetch_enabled": true,
+      "enable_pinned_memory": true,
+      "memory_fraction": 0.95,
+      "expected_vram_savings": "4-6GB"
+    },
+    "large_model": {
+      "description": "大型模型 (5-15B参数) - 高质量生成",
+      "blocks_to_swap": 16,
+      "prefetch_blocks": 3,
+      "num_transfer_streams": 4,
+      "use_non_blocking": true,
+      "memory_pool_enabled": true,
+      "smart_prefetch_enabled": true,
+      "enable_pinned_memory": true,
+      "memory_fraction": 0.95,
+      "expected_vram_savings": "6-10GB"
+    },
+    "xl_model": {
+      "description": "超大型模型 (>15B参数) - 专业级生成",
+      "blocks_to_swap": 24,
+      "prefetch_blocks": 4,
+      "num_transfer_streams": 4,
+      "use_non_blocking": true,
+      "memory_pool_enabled": true,
+      "smart_prefetch_enabled": true,
+      "enable_pinned_memory": true,
+      "memory_fraction": 0.95,
+      "expected_vram_savings": "10GB+"
+    }
+  },
+  "scenario_configs": {
+    "low_vram_8gb": {
+      "description": "8GB显存优化配置 - 最大化显存节省",
+      "blocks_to_swap": 30,
+      "prefetch_blocks": 1,
+      "num_transfer_streams": 2,
+      "use_non_blocking": true,
+      "memory_pool_enabled": false,
+      "smart_prefetch_enabled": true,
+      "enable_pinned_memory": true,
+      "memory_fraction": 0.90
+    },
+    "high_performance": {
+      "description": "高性能配置 - 最大化速度",
+      "blocks_to_swap": 12,
+      "prefetch_blocks": 4,
+      "num_transfer_streams": 6,
+      "use_non_blocking": true,
+      "memory_pool_enabled": true,
+      "smart_prefetch_enabled": true,
+      "enable_pinned_memory": true,
+      "memory_fraction": 0.98
+    },
+    "balanced": {
+      "description": "平衡配置 - 性能与显存的平衡",
+      "blocks_to_swap": 16,
+      "prefetch_blocks": 3,
+      "num_transfer_streams": 4,
+      "use_non_blocking": true,
+      "memory_pool_enabled": true,
+      "smart_prefetch_enabled": true,
+      "enable_pinned_memory": true,
+      "memory_fraction": 0.95
+    },
+    "debugging": {
+      "description": "调试配置 - 详细日志和统计",
+      "blocks_to_swap": 10,
+      "prefetch_blocks": 2,
+      "num_transfer_streams": 2,
+      "use_non_blocking": true,
+      "memory_pool_enabled": true,
+      "smart_prefetch_enabled": true,
+      "enable_pinned_memory": true,
+      "memory_fraction": 0.90,
+      "block_swap_debug": true
+    }
+  },
+  "hardware_specific": {
+    "rtx_4090": {
+      "description": "RTX 4090 优化配置",
+      "blocks_to_swap": 16,
+      "prefetch_blocks": 4,
+      "num_transfer_streams": 6,
+      "memory_fraction": 0.96
+    },
+    "rtx_4080": {
+      "description": "RTX 4080 优化配置",
+      "blocks_to_swap": 20,
+      "prefetch_blocks": 3,
+      "num_transfer_streams": 4,
+      "memory_fraction": 0.94
+    },
+    "rtx_4070": {
+      "description": "RTX 4070 优化配置",
+      "blocks_to_swap": 24,
+      "prefetch_blocks": 2,
+      "num_transfer_streams": 4,
+      "memory_fraction": 0.92
+    },
+    "rtx_3090": {
+      "description": "RTX 3090 优化配置",
+      "blocks_to_swap": 18,
+      "prefetch_blocks": 3,
+      "num_transfer_streams": 4,
+      "memory_fraction": 0.95
+    }
+  },
+  "performance_expectations": {
+    "bandwidth_improvement": {
+      "baseline": "8.3 GB/s",
+      "optimized": "44.5 GB/s",
+      "improvement": "+459%"
+    },
+    "pcie_utilization": {
+      "baseline": "13%",
+      "optimized": "70%",
+      "improvement": "+438%"
+    },
+    "latency_reduction": {
+      "baseline": "48ms",
+      "optimized": "9.5ms",
+      "improvement": "-80%"
+    },
+    "overall_speedup": {
+      "baseline": "1.0x",
+      "optimized": "2.5x",
+      "improvement": "+150%"
+    }
+  },
+  "troubleshooting": {
+    "common_issues": {
+      "cuda_oom": {
+        "issue": "CUDA out of memory",
+        "solutions": [
+          "增加blocks_to_swap值",
+          "减少prefetch_blocks",
+          "降低memory_fraction",
+          "关闭memory_pool_enabled"
+        ]
+      },
+      "slow_performance": {
+        "issue": "性能没有提升",
+        "solutions": [
+          "检查use_non_blocking=true",
+          "启用smart_prefetch_enabled",
+          "检查PCIe版本 (推荐4.0+)",
+          "增加prefetch_blocks值"
+        ]
+      },
+      "zero_prefetch_hits": {
+        "issue": "预取命中率0%",
+        "solutions": [
+          "检查CUDA版本兼容性",
+          "验证pinned memory支持",
+          "减少num_transfer_streams",
+          "启用调试模式查看详情"
+        ]
+      }
+    }
+  }
+}

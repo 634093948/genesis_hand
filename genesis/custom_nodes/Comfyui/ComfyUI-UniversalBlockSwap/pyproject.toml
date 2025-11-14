@@ -1,0 +1,80 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "comfyui-universal-blockswap"
+version = "1.0.0"
+description = "Universal BlockSwap optimization for ComfyUI - Memory optimization for all model types"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Based on WanVideoWrapper", email = "noreply@example.com"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["comfyui", "stable-diffusion", "optimization", "memory", "blockswap", "pytorch"]
+requires-python = ">=3.8"
+dependencies = [
+    "torch>=1.13.0",
+    "numpy>=1.21.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "black>=22.0",
+    "flake8>=4.0",
+    "isort>=5.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/example/comfyui-universal-blockswap"
+Documentation = "https://github.com/example/comfyui-universal-blockswap/blob/main/README.md"
+Repository = "https://github.com/example/comfyui-universal-blockswap.git"
+Issues = "https://github.com/example/comfyui-universal-blockswap/issues"
+
+[tool.setuptools]
+packages = ["comfyui_universal_blockswap"]
+
+[tool.setuptools.package-dir]
+comfyui_universal_blockswap = "."
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
